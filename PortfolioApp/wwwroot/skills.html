@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skills — MD. Abu Saeed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf9f6;--surface:#ffffff;--line:#e7e4dc;--ink:#1a1a18;--muted:#6f6b62;--accent:#c65d34;--serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:4.5rem 2rem}
+.back{font-size:.9rem;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--accent)}
+h1{font-family:var(--serif);font-weight:600;font-size:2.3rem;margin:1.5rem 0 .5rem;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:0 0 2.5rem;font-size:1.05rem}
+.card{--c1:#c65d34;--c2:#EB6E9B;position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.8rem 1.8rem 1.6rem;margin-bottom:1.1rem;transition:transform .25s,box-shadow .25s}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--c1),var(--c2))}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -14px var(--c1)}
+.card h2{font-family:var(--sans);font-weight:700;font-size:1.2rem;margin:0 0 .6rem;background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.card p{color:var(--muted);margin:0;font-size:.98rem}
+.meter{display:flex;align-items:center;gap:.8rem;margin-top:1.1rem}
+.skill-bar{flex:1;height:11px;background:#efece4;border-radius:100px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
+.skill-bar span{display:block;height:100%;width:0;border-radius:100px;position:relative;background:linear-gradient(90deg,var(--c1),var(--c2));transition:width 1.3s cubic-bezier(.22,1,.36,1)}
+.skill-bar span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-100%);animation:shine 2.4s infinite}
+@keyframes shine{to{transform:translateX(100%)}}
+.skill-pct{font-size:.9rem;font-weight:700;color:var(--c1);min-width:3em;text-align:right}
+.contact-cta{margin-top:2.5rem;display:inline-block;color:var(--accent);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Back to portfolio</a>
+  <h1>Technical skills</h1>
+  <p class="lede">A closer look at the technologies I've learned and practiced.</p>
+
+  <div id="skillsList"><p class="lede">Loading…</p></div>
+
+  <a class="contact-cta" href="index.html#contact">Contact me →</a>
+</div>
+<script>
+function esc(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+(async function(){
+  const el=document.getElementById('skillsList');
+  try{
+    const res=await fetch('/api/skills');
+    const items=await res.json();
+    if(!items.length){el.innerHTML='<p class="lede">No skills added yet.</p>';return;}
+    const COLORS=[['#c65d34','#EB6E9B'],['#2563eb','#06b6d4'],['#7c3aed','#ec4899'],['#059669','#84cc16'],['#f59e0b','#ef4444'],['#0ea5e9','#6366f1']];
+    el.innerHTML=items.map((k,i)=>{
+      const [c1,c2]=COLORS[i%COLORS.length];
+      const lvl=Math.max(0,Math.min(100,Number(k.level)||0));
+      return `
+      <div id="skill-${k.id}" class="card" style="--c1:${c1};--c2:${c2}">
+        <h2>${esc(k.title)}</h2>
+        <p>${esc(k.details||k.description)}</p>
+        <div class="meter"><div class="skill-bar"><span data-level="${lvl}"></span></div><span class="skill-pct">${lvl}%</span></div>
+      </div>`;}).join('');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>el.querySelectorAll('.skill-bar span').forEach(b=>b.style.width=b.dataset.level+'%')));
+    // scroll to the card the visitor clicked on the homepage
+    if(location.hash){const t=document.querySelector(location.hash);if(t)t.scrollIntoView({behavior:'smooth',block:'center'});}
+  }catch(e){el.innerHTML='<p class="lede">Could not load skills.</p>';}
+})();
+</script>
+</body>
+</html>

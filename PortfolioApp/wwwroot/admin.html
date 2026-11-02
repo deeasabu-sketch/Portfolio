@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — MD. Abu Saeed Portfolio</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf9f6;--surface:#ffffff;--line:#e7e4dc;--ink:#1a1a18;--muted:#6f6b62;--accent:#c65d34;--danger:#c0392b;--serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;min-height:100vh}
+.center-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:2.6rem}
+.login-box h1{font-family:var(--serif);font-weight:600;font-size:1.6rem;margin:0 0 .3rem;letter-spacing:-.01em}
+.login-box p.sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem}
+label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:.4rem;font-weight:500}
+input[type=password],input[type=text],input[type=url]{
+  width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);
+  padding:.75rem .9rem;border-radius:10px;font-size:.95rem;font-family:var(--sans);
+}
+input:focus{outline:none;border-color:var(--accent)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  font-family:var(--sans);font-weight:600;font-size:.92rem;
+  background:var(--ink);color:#fff;border:none;
+  padding:.8rem 1.4rem;border-radius:100px;cursor:pointer;transition:.2s;width:100%;
+}
+.btn:hover{background:var(--accent)}
+.btn.secondary{background:transparent;border:1.5px solid var(--line);color:var(--ink);width:auto}
+.btn.secondary:hover{border-color:var(--ink);background:transparent}
+.btn.danger{background:transparent;border:1.5px solid var(--danger);color:var(--danger);width:auto;padding:.55rem 1rem;font-size:.85rem}
+.btn.danger:hover{background:rgba(192,57,43,.08)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.error-msg{color:var(--danger);font-size:.88rem;margin-top:1rem;min-height:1.2em}
+.success-msg{color:#2e7d4f;font-size:.88rem;margin-top:.5rem}
+
+.dashboard{display:none;max-width:900px;margin:0 auto;padding:3.5rem 1.5rem}
+.dash-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.dash-header h1{font-family:var(--serif);font-weight:600;font-size:1.8rem;margin:0;letter-spacing:-.01em}
+.dash-header a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500}
+.dash-header a:hover{color:var(--accent)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:2.2rem;margin-bottom:1.75rem}
+.panel h2{font-family:var(--sans);font-weight:600;font-size:1.2rem;margin:0 0 .3rem}
+.panel .desc{color:var(--muted);font-size:.9rem;margin:0 0 1.5rem}
+
+.link-row{display:grid;grid-template-columns:1fr 2fr 120px auto;gap:.6rem;margin-bottom:.7rem;align-items:center}
+@media (max-width:700px){.link-row{grid-template-columns:1fr}}
+.link-row select{background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:.7rem;border-radius:10px;font-family:var(--sans)}
+.add-link-form{display:grid;grid-template-columns:1fr 2fr 120px auto;gap:.6rem;margin-top:1.2rem;align-items:end}
+@media (max-width:700px){.add-link-form{grid-template-columns:1fr}}
+.add-link-form .field label{margin-bottom:.3rem}
+
+.cv-upload-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.cv-current{font-size:.88rem;color:var(--muted)}
+input[type=file]{color:var(--muted);font-size:.85rem}
+
+.pw-form{display:grid;gap:.9rem;max-width:340px}
+textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:.75rem .9rem;border-radius:10px;font-size:.95rem;font-family:var(--sans);resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+.item-card{border:1px solid var(--line);border-radius:12px;padding:1rem;margin-bottom:.8rem;display:grid;gap:.6rem;background:var(--bg)}
+.item-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media (max-width:700px){.item-card .row2{grid-template-columns:1fr}}
+.item-card .actions{display:flex;gap:.5rem}
+.photo-preview{width:120px;height:138px;object-fit:cover;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+.photo-row{display:flex;gap:1.2rem;align-items:flex-start;flex-wrap:wrap}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="center-wrap" id="loginView">
+  <div class="login-box">
+    <h1>Admin login</h1>
+    <p class="sub">Enter your password to manage links and CV.</p>
+    <form id="loginForm">
+      <label for="passwordInput">Password</label>
+      <input type="password" id="passwordInput" autocomplete="current-password" required>
+      <button type="submit" class="btn" style="margin-top:1.2rem" id="loginBtn">Log in</button>
+      <div class="error-msg" id="loginError"></div>
+    </form>
+    <a href="#" id="forgotPwLink" style="display:block;text-align:center;margin-top:1.2rem;font-size:.85rem;color:var(--muted);text-decoration:none">Forgot password?</a>
+  </div>
+</div>
+
+<!-- ===== FORGOT PASSWORD VIEW ===== -->
+<div class="center-wrap" id="forgotView" style="display:none">
+  <div class="login-box">
+    <h1>Reset password</h1>
+    <p class="sub" id="forgotStepLabel">We'll email a 6-digit code to your recovery address.</p>
+
+    <div id="forgotStep1">
+      <button class="btn" id="sendCodeBtn">Send reset code</button>
+      <div class="error-msg" id="forgotError1"></div>
+      <div class="success-msg" id="forgotSuccess1"></div>
+    </div>
+
+    <form id="resetForm" style="display:none">
+      <label for="resetCode">6-digit code</label>
+      <input type="text" id="resetCode" inputmode="numeric" maxlength="6" required>
+      <label for="resetNewPw" style="margin-top:1rem">New password (min 8 characters)</label>
+      <input type="password" id="resetNewPw" minlength="8" required>
+      <button type="submit" class="btn" style="margin-top:1.2rem">Reset password</button>
+      <div class="error-msg" id="forgotError2"></div>
+      <div class="success-msg" id="forgotSuccess2"></div>
+    </form>
+
+    <a href="#" id="backToLoginLink" style="display:block;text-align:center;margin-top:1.2rem;font-size:.85rem;color:var(--muted);text-decoration:none">← Back to login</a>
+  </div>
+</div>
+
+<div class="dashboard" id="dashboardView">
+  <div class="dash-header">
+    <h1>Portfolio admin</h1>
+    <div style="display:flex;gap:1.2rem;align-items:center">
+      <a href="index.html">View site ↗</a>
+      <a href="#" id="logoutLink">Log out</a>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Links</h2>
+    <p class="desc">GitHub, LinkedIn, website, Facebook, YouTube, Gmail, or any repository link. These appear when a visitor clicks your profile photo.</p>
+    <div id="linksList"></div>
+
+    <div class="add-link-form">
+      <div class="field"><label>Label</label><input type="text" id="newLinkLabel" placeholder="e.g. GitHub"></div>
+      <div class="field"><label>URL</label><input type="url" id="newLinkUrl" placeholder="https://..."></div>
+      <div class="field"><label>Type</label>
+        <select id="newLinkType">
+          <option value="github">GitHub</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="website">Website</option>
+          <option value="facebook">Facebook Page</option>
+          <option value="facebook_group">Facebook Group</option>
+          <option value="instagram">Instagram</option>
+          <option value="youtube">YouTube</option>
+          <option value="gmail">Gmail</option>
+          <option value="repo">Repository</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <button class="btn secondary" id="addLinkBtn">Add link</button>
+    </div>
+    <div class="error-msg" id="linksError"></div>
+    <div class="success-msg" id="linksSuccess"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Profile photo</h2>
+    <p class="desc">Shows in the hero section of the homepage. JPG, PNG or WebP, up to 5 MB.</p>
+    <div class="photo-row">
+      <img class="photo-preview" id="photoPreview" src="assets/profile.jpg" alt="Current photo">
+      <div>
+        <input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp">
+        <div style="display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap">
+          <button class="btn secondary" id="uploadPhotoBtn">Upload photo</button>
+          <button class="btn danger" id="resetPhotoBtn">Use default</button>
+        </div>
+        <div class="error-msg" id="photoError"></div>
+        <div class="success-msg" id="photoSuccess"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Homepage text</h2>
+    <p class="desc">Leave a box empty to keep the built-in text.</p>
+    <div class="field"><label>Headline</label><input type="text" id="textHeroTitle" placeholder="Building reliable software with C# &amp; ASP.NET"></div>
+    <div class="field" style="margin-top:.8rem"><label>Intro paragraph</label><textarea id="textHeroText" rows="3"></textarea></div>
+    <div class="field" style="margin-top:.8rem"><label>About paragraph</label><textarea id="textAboutText" rows="3"></textarea></div>
+    <button class="btn secondary" id="saveTextBtn" style="width:auto;margin-top:1rem">Save text</button>
+    <div class="error-msg" id="textError"></div>
+    <div class="success-msg" id="textSuccess"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Skills</h2>
+    <p class="desc">Each skill appears as a card on the homepage and has its own detail card on the skills page.</p>
+    <div id="skillsAdminList"></div>
+    <button class="btn secondary" id="addSkillBtn" style="width:auto">+ Add skill</button>
+    <div class="error-msg" id="skillsError"></div>
+    <div class="success-msg" id="skillsSuccess"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Projects</h2>
+    <p class="desc">Add your projects with source-code and live-demo links. Tech stack is comma separated.</p>
+    <div id="projectsAdminList"></div>
+    <button class="btn secondary" id="addProjectBtn" style="width:auto">+ Add project</button>
+    <div class="error-msg" id="projectsError"></div>
+    <div class="success-msg" id="projectsSuccess"></div>
+  </div>
+
+  <div class="panel">
+    <h2>CV</h2>
+    <p class="desc">Upload a PDF. It replaces the previous file and stays available for download on the homepage.</p>
+    <div class="cv-upload-row">
+      <span class="cv-current" id="currentCvLabel">Loading…</span>
+    </div>
+    <div class="cv-upload-row" style="margin-top:1rem">
+      <input type="file" id="cvFileInput" accept="application/pdf">
+      <button class="btn secondary" id="uploadCvBtn">Upload CV</button>
+    </div>
+    <div class="error-msg" id="cvError"></div>
+    <div class="success-msg" id="cvSuccess"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Recovery email</h2>
+    <p class="desc">Where "forgot password" reset codes are sent. Not used for login — login is password-only.</p>
+    <div class="pw-form" style="max-width:420px">
+      <div class="field"><label>Recovery email</label><input type="text" id="recoveryEmailInput" placeholder="you@example.com"></div>
+      <button class="btn secondary" id="saveRecoveryEmailBtn" style="width:auto">Save</button>
+      <div class="error-msg" id="recoveryEmailError"></div>
+      <div class="success-msg" id="recoveryEmailSuccess"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Change password</h2>
+    <p class="desc">Update your admin password.</p>
+    <form class="pw-form" id="pwForm">
+      <div class="field"><label>Current password</label><input type="password" id="currentPw" required></div>
+      <div class="field"><label>New password (min 8 characters)</label><input type="password" id="newPw" minlength="8" required></div>
+      <button type="submit" class="btn secondary">Update password</button>
+      <div class="error-msg" id="pwError"></div>
+      <div class="success-msg" id="pwSuccess"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+const API = '';
+const TOKEN_KEY = 'portfolio_admin_token';
+
+function getToken() { return localStorage.getItem(TOKEN_KEY); }
+function setToken(t) { localStorage.setItem(TOKEN_KEY, t); }
+function clearToken() { localStorage.removeItem(TOKEN_KEY); }
+function authHeaders() { const t = getToken(); return t ? { 'Authorization': `Bearer ${t}` } : {}; }
+
+function showView(view) {
+  document.getElementById('loginView').style.display = view === 'login' ? 'flex' : 'none';
+  document.getElementById('forgotView').style.display = view === 'forgot' ? 'flex' : 'none';
+  document.getElementById('dashboardView').style.display = view === 'dashboard' ? 'block' : 'none';
+}
+
+document.getElementById('forgotPwLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  showView('forgot');
+  document.getElementById('forgotStep1').style.display = 'block';
+  document.getElementById('resetForm').style.display = 'none';
+  document.getElementById('forgotError1').textContent = '';
+  document.getElementById('forgotSuccess1').textContent = '';
+});
+
+document.getElementById('backToLoginLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  showView('login');
+});
+
+document.getElementById('sendCodeBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('sendCodeBtn');
+  const errEl = document.getElementById('forgotError1');
+  const okEl = document.getElementById('forgotSuccess1');
+  errEl.textContent = ''; okEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    const res = await fetch(`${API}/api/auth/forgot-password`, { method: 'POST' });
+    const data = await res.json();
+    okEl.textContent = data.message || 'Code sent, check your email.';
+    document.getElementById('resetForm').style.display = 'block';
+  } catch (err) {
+    errEl.textContent = 'Could not reach the server.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send reset code';
+  }
+});
+
+document.getElementById('resetForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errEl = document.getElementById('forgotError2');
+  const okEl = document.getElementById('forgotSuccess2');
+  errEl.textContent = ''; okEl.textContent = '';
+  const code = document.getElementById('resetCode').value.trim();
+  const newPassword = document.getElementById('resetNewPw').value;
+
+  try {
+    const res = await fetch(`${API}/api/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, newPassword })
+    });
+    const data = await res.json();
+    if (!res.ok) { errEl.textContent = data.message || 'Reset failed.'; return; }
+    okEl.textContent = data.message || 'Password reset. You can log in now.';
+    setTimeout(() => showView('login'), 1800);
+  } catch (err) {
+    errEl.textContent = 'Could not reach the server.';
+  }
+});
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Logging in…';
+  try {
+    const res = await fetch(`${API}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: document.getElementById('passwordInput').value })
+    });
+    const data = await res.json();
+    if (!res.ok) { errEl.textContent = data.message || 'Login failed.'; return; }
+    setToken(data.token);
+    document.getElementById('passwordInput').value = '';
+    enterDashboard();
+  } catch (err) {
+    errEl.textContent = 'Could not reach the server.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Log in';
+  }
+});
+
+document.getElementById('logoutLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  clearToken();
+  showView('login');
+});
+
+async function enterDashboard() {
+  showView('dashboard');
+  await Promise.all([loadLinksAdmin(), loadCvAdmin(), loadRecoveryEmail(), loadPhotoAdmin(), loadTextAdmin(), loadSkillsAdmin(), loadProjectsAdmin()]);
+}
+
+async function loadRecoveryEmail() {
+  const res = await fetch(`${API}/api/auth/recovery-email`, { headers: authHeaders() });
+  if (handleAuthFailure(res)) return;
+  const data = await res.json();
+  document.getElementById('recoveryEmailInput').value = data.recoveryEmail || '';
+}
+
+document.getElementById('saveRecoveryEmailBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('recoveryEmailError');
+  const okEl = document.getElementById('recoveryEmailSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const email = document.getElementById('recoveryEmailInput').value.trim();
+
+  const res = await fetch(`${API}/api/auth/recovery-email`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ email })
+  });
+  if (handleAuthFailure(res)) return;
+  const data = await res.json();
+  if (!res.ok) { errEl.textContent = data.message || 'Could not save.'; return; }
+  okEl.textContent = 'Saved.';
+  setTimeout(() => okEl.textContent = '', 2000);
+});
+
+if (getToken()) { enterDashboard(); } else { showView('login'); }
+
+function handleAuthFailure(res) {
+  if (res.status === 401) {
+    clearToken();
+    showView('login');
+    document.getElementById('loginError').textContent = 'Session expired. Please log in again.';
+    return true;
+  }
+  return false;
+}
+
+const typeLabels = { github: 'GitHub', linkedin: 'LinkedIn', website: 'Website', facebook: 'Facebook Page', facebook_group: 'Facebook Group', instagram: 'Instagram', youtube: 'YouTube', gmail: 'Gmail', repo: 'Repository', custom: 'Custom' };
+
+async function loadLinksAdmin() {
+  const res = await fetch(`${API}/api/links`);
+  const links = await res.json();
+  renderLinksAdmin(links);
+}
+
+function renderLinksAdmin(links) {
+  const list = document.getElementById('linksList');
+  if (!links.length) { list.innerHTML = '<p style="color:var(--muted);font-size:.9rem">No links yet — add one below.</p>'; return; }
+  list.innerHTML = links.map(l => `
+    <div class="link-row" data-id="${l.id}">
+      <input type="text" value="${escapeAttr(l.label)}" data-field="label">
+      <input type="url" value="${escapeAttr(l.url)}" data-field="url">
+      <select data-field="type">
+        ${Object.entries(typeLabels).map(([val, label]) => `<option value="${val}" ${l.type === val ? 'selected' : ''}>${label}</option>`).join('')}
+      </select>
+      <div style="display:flex;gap:.4rem">
+        <button class="btn secondary save-link-btn" style="padding:.55rem 1rem;font-size:.85rem">Save</button>
+        <button class="btn danger delete-link-btn">Delete</button>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.save-link-btn').forEach(btn => btn.addEventListener('click', () => saveLink(btn.closest('.link-row'))));
+  list.querySelectorAll('.delete-link-btn').forEach(btn => btn.addEventListener('click', () => deleteLink(btn.closest('.link-row').dataset.id)));
+}
+
+async function saveLink(row) {
+  const errEl = document.getElementById('linksError');
+  const okEl = document.getElementById('linksSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const id = parseInt(row.dataset.id, 10);
+  const label = row.querySelector('[data-field=label]').value.trim();
+  const url = row.querySelector('[data-field=url]').value.trim();
+  const type = row.querySelector('[data-field=type]').value;
+
+  const res = await fetch(`${API}/api/links`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ id, label, url, type, sortOrder: 0 })
+  });
+  if (handleAuthFailure(res)) return;
+  const data = await res.json();
+  if (!res.ok) { errEl.textContent = data.message || 'Could not save link.'; return; }
+  okEl.textContent = 'Saved.';
+  setTimeout(() => okEl.textContent = '', 2000);
+}
+
+async function deleteLink(id) {
+  if (!confirm('Delete this link?')) return;
+  const res = await fetch(`${API}/api/links/${id}`, { method: 'DELETE', headers: authHeaders() });
+  if (handleAuthFailure(res)) return;
+  await loadLinksAdmin();
+}
+
+document.getElementById('addLinkBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('linksError');
+  const okEl = document.getElementById('linksSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const label = document.getElementById('newLinkLabel').value.trim();
+  const url = document.getElementById('newLinkUrl').value.trim();
+  const type = document.getElementById('newLinkType').value;
+  if (!label || !url) { errEl.textContent = 'Label and URL are required.'; return; }
+
+  const res = await fetch(`${API}/api/links`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ label, url, type, sortOrder: 99 })
+  });
+  if (handleAuthFailure(res)) return;
+  const data = await res.json();
+  if (!res.ok) { errEl.textContent = data.message || 'Could not add link.'; return; }
+
+  document.getElementById('newLinkLabel').value = '';
+  document.getElementById('newLinkUrl').value = '';
+  okEl.textContent = 'Link added.';
+  setTimeout(() => okEl.textContent = '', 2000);
+  await loadLinksAdmin();
+});
+
+async function loadCvAdmin() {
+  const res = await fetch(`${API}/api/cv`);
+  const data = await res.json();
+  const label = document.getElementById('currentCvLabel');
+  label.textContent = data.hasCv
+    ? `Current: ${data.fileName} (updated ${new Date(data.updatedAtUtc).toLocaleString()})`
+    : 'No CV uploaded yet.';
+}
+
+document.getElementById('uploadCvBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('cvError');
+  const okEl = document.getElementById('cvSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const fileInput = document.getElementById('cvFileInput');
+  const file = fileInput.files[0];
+  if (!file) { errEl.textContent = 'Choose a PDF file first.'; return; }
+  if (file.type !== 'application/pdf') { errEl.textContent = 'Only PDF files are accepted.'; return; }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const res = await fetch(`${API}/api/cv`, { method: 'POST', headers: authHeaders(), body: formData });
+  if (handleAuthFailure(res)) return;
+  const data = await res.json();
+  if (!res.ok) { errEl.textContent = data.message || 'Upload failed.'; return; }
+
+  okEl.textContent = 'CV updated.';
+  fileInput.value = '';
+  await loadCvAdmin();
+});
+
+document.getElementById('pwForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errEl = document.getElementById('pwError');
+  const okEl = document.getElementById('pwSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+
+  const currentPassword = document.getElementById('currentPw').value;
+  const newPassword = document.getElementById('newPw').value;
+
+  const res = await fetch(`${API}/api/auth/change-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({ currentPassword, newPassword })
+  });
+  if (handleAuthFailure(res)) return;
+  const data = await res.json();
+  if (!res.ok) { errEl.textContent = data.message || 'Could not update password.'; return; }
+
+  okEl.textContent = 'Password updated.';
+  document.getElementById('pwForm').reset();
+});
+
+// ================= Profile photo =================
+async function loadPhotoAdmin() {
+  try {
+    const res = await fetch(`${API}/api/site/photo`);
+    const d = await res.json();
+    document.getElementById('photoPreview').src = d.url;
+  } catch (e) {}
+}
+document.getElementById('uploadPhotoBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('photoError'), okEl = document.getElementById('photoSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const file = document.getElementById('photoFileInput').files[0];
+  if (!file) { errEl.textContent = 'Choose an image first.'; return; }
+  const fd = new FormData(); fd.append('file', file);
+  const res = await fetch(`${API}/api/site/photo`, { method: 'POST', headers: authHeaders(), body: fd });
+  if (handleAuthFailure(res)) return;
+  const d = await res.json();
+  if (!res.ok) { errEl.textContent = d.message || 'Upload failed.'; return; }
+  document.getElementById('photoPreview').src = d.url;
+  document.getElementById('photoFileInput').value = '';
+  okEl.textContent = 'Photo updated. It now shows on the homepage.';
+});
+document.getElementById('resetPhotoBtn').addEventListener('click', async () => {
+  if (!confirm('Go back to the default photo?')) return;
+  const res = await fetch(`${API}/api/site/photo`, { method: 'DELETE', headers: authHeaders() });
+  if (handleAuthFailure(res)) return;
+  await loadPhotoAdmin();
+});
+
+// ================= Homepage text =================
+async function loadTextAdmin() {
+  try {
+    const res = await fetch(`${API}/api/site/text`);
+    const t = await res.json();
+    document.getElementById('textHeroTitle').value = t.heroTitle || '';
+    document.getElementById('textHeroText').value = t.heroText || '';
+    document.getElementById('textAboutText').value = t.aboutText || '';
+  } catch (e) {}
+}
+document.getElementById('saveTextBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('textError'), okEl = document.getElementById('textSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const res = await fetch(`${API}/api/site/text`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify({
+      heroTitle: document.getElementById('textHeroTitle').value,
+      heroText: document.getElementById('textHeroText').value,
+      aboutText: document.getElementById('textAboutText').value
+    })
+  });
+  if (handleAuthFailure(res)) return;
+  const d = await res.json();
+  if (!res.ok) { errEl.textContent = d.message || 'Could not save.'; return; }
+  okEl.textContent = 'Saved.'; setTimeout(() => okEl.textContent = '', 2000);
+});
+
+// ================= Skills =================
+async function loadSkillsAdmin() {
+  const res = await fetch(`${API}/api/skills`);
+  renderSkillsAdmin(await res.json());
+}
+function skillCardHtml(k) {
+  return `
+  <div class="item-card" data-id="${k.id || 0}">
+    <div class="row2">
+      <div class="field"><label>Title</label><input type="text" data-f="title" value="${escapeAttr(k.title || '')}"></div>
+      <div class="field"><label>Order (1 = first)</label><input type="text" data-f="sortOrder" value="${k.sortOrder ?? 99}"></div>
+    </div>
+    <div class="field"><label>Short line (homepage card)</label><input type="text" data-f="description" value="${escapeAttr(k.description || '')}"></div>
+    <div class="field"><label>Proficiency level: <b class="lvl-val">${k.level ?? 50}</b>%</label>
+      <input type="range" min="0" max="100" step="5" data-f="level" value="${k.level ?? 50}" oninput="this.closest('.field').querySelector('.lvl-val').textContent=this.value">
+    </div>
+    <div class="field"><label>Details (skills page)</label><textarea data-f="details" rows="2">${escapeAttr(k.details || '')}</textarea></div>
+    <div class="actions">
+      <button class="btn secondary save-skill" style="padding:.55rem 1rem;font-size:.85rem">Save</button>
+      <button class="btn danger del-skill">Delete</button>
+    </div>
+  </div>`;
+}
+function renderSkillsAdmin(items) {
+  const list = document.getElementById('skillsAdminList');
+  list.innerHTML = items.map(skillCardHtml).join('') || '<p style="color:var(--muted);font-size:.9rem">No skills yet.</p>';
+  wireSkillButtons(list);
+}
+function wireSkillButtons(scope) {
+  scope.querySelectorAll('.save-skill').forEach(b => b.onclick = () => saveSkill(b.closest('.item-card')));
+  scope.querySelectorAll('.del-skill').forEach(b => b.onclick = () => deleteSkill(b.closest('.item-card')));
+}
+async function saveSkill(card) {
+  const errEl = document.getElementById('skillsError'), okEl = document.getElementById('skillsSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const g = f => card.querySelector(`[data-f=${f}]`).value;
+  const body = { id: parseInt(card.dataset.id, 10) || 0, title: g('title').trim(), description: g('description'), details: g('details'), level: parseInt(g('level'), 10) || 0, sortOrder: parseInt(g('sortOrder'), 10) || 0 };
+  if (!body.title) { errEl.textContent = 'Title is required.'; return; }
+  const res = await fetch(`${API}/api/skills`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() }, body: JSON.stringify(body) });
+  if (handleAuthFailure(res)) return;
+  const d = await res.json();
+  if (!res.ok) { errEl.textContent = d.message || 'Could not save.'; return; }
+  card.dataset.id = d.id;
+  okEl.textContent = 'Saved.'; setTimeout(() => okEl.textContent = '', 2000);
+}
+async function deleteSkill(card) {
+  const id = parseInt(card.dataset.id, 10) || 0;
+  if (!id) { card.remove(); return; }
+  if (!confirm('Delete this skill?')) return;
+  const res = await fetch(`${API}/api/skills/${id}`, { method: 'DELETE', headers: authHeaders() });
+  if (handleAuthFailure(res)) return;
+  card.remove();
+}
+document.getElementById('addSkillBtn').addEventListener('click', () => {
+  const list = document.getElementById('skillsAdminList');
+  if (list.querySelector('p')) list.innerHTML = '';
+  list.insertAdjacentHTML('beforeend', skillCardHtml({}));
+  wireSkillButtons(list);
+});
+
+// ================= Projects =================
+async function loadProjectsAdmin() {
+  const res = await fetch(`${API}/api/projects`);
+  renderProjectsAdmin(await res.json());
+}
+function projectCardHtml(p) {
+  return `
+  <div class="item-card" data-id="${p.id || 0}">
+    <div class="row2">
+      <div class="field"><label>Title</label><input type="text" data-f="title" value="${escapeAttr(p.title || '')}"></div>
+      <div class="field"><label>Order (1 = first)</label><input type="text" data-f="sortOrder" value="${p.sortOrder ?? 99}"></div>
+    </div>
+    <div class="field"><label>Description</label><textarea data-f="description" rows="2">${escapeAttr(p.description || '')}</textarea></div>
+    <div class="field"><label>Tech stack (comma separated)</label><input type="text" data-f="techStack" value="${escapeAttr(p.techStack || '')}" placeholder="C#, SQL Server, ASP.NET Core"></div>
+    <div class="row2">
+      <div class="field"><label>Source code link (GitHub)</label><input type="url" data-f="repoUrl" value="${escapeAttr(p.repoUrl || '')}" placeholder="https://github.com/..."></div>
+      <div class="field"><label>Live demo link (shown in an iframe preview)</label><input type="url" data-f="liveUrl" value="${escapeAttr(p.liveUrl || '')}" placeholder="https://..."></div>
+    </div>
+    <div class="actions">
+      <button class="btn secondary save-project" style="padding:.55rem 1rem;font-size:.85rem">Save</button>
+      <button class="btn danger del-project">Delete</button>
+    </div>
+  </div>`;
+}
+function renderProjectsAdmin(items) {
+  const list = document.getElementById('projectsAdminList');
+  list.innerHTML = items.map(projectCardHtml).join('') || '<p style="color:var(--muted);font-size:.9rem">No projects yet.</p>';
+  wireProjectButtons(list);
+}
+function wireProjectButtons(scope) {
+  scope.querySelectorAll('.save-project').forEach(b => b.onclick = () => saveProject(b.closest('.item-card')));
+  scope.querySelectorAll('.del-project').forEach(b => b.onclick = () => deleteProject(b.closest('.item-card')));
+}
+async function saveProject(card) {
+  const errEl = document.getElementById('projectsError'), okEl = document.getElementById('projectsSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  const g = f => card.querySelector(`[data-f=${f}]`).value;
+  const body = { id: parseInt(card.dataset.id, 10) || 0, title: g('title').trim(), description: g('description'), techStack: g('techStack'), repoUrl: g('repoUrl').trim(), liveUrl: g('liveUrl').trim(), sortOrder: parseInt(g('sortOrder'), 10) || 0 };
+  if (!body.title) { errEl.textContent = 'Title is required.'; return; }
+  const res = await fetch(`${API}/api/projects`, { method: 'POST', headers: { 'Content-Type': 'application/json', ...authHeaders() }, body: JSON.stringify(body) });
+  if (handleAuthFailure(res)) return;
+  const d = await res.json();
+  if (!res.ok) { errEl.textContent = d.message || 'Could not save.'; return; }
+  card.dataset.id = d.id;
+  okEl.textContent = 'Saved.'; setTimeout(() => okEl.textContent = '', 2000);
+}
+async function deleteProject(card) {
+  const id = parseInt(card.dataset.id, 10) || 0;
+  if (!id) { card.remove(); return; }
+  if (!confirm('Delete this project?')) return;
+  const res = await fetch(`${API}/api/projects/${id}`, { method: 'DELETE', headers: authHeaders() });
+  if (handleAuthFailure(res)) return;
+  card.remove();
+}
+document.getElementById('addProjectBtn').addEventListener('click', () => {
+  const list = document.getElementById('projectsAdminList');
+  if (list.querySelector('p')) list.innerHTML = '';
+  list.insertAdjacentHTML('beforeend', projectCardHtml({}));
+  wireProjectButtons(list);
+});
+
+function escapeAttr(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+</body>
+</html>

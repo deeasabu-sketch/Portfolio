@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MD. Abu Saeed — Software Engineer</title>
+<meta name="description" content="MD. Abu Saeed — Fresher Software Engineer. C#, ASP.NET Core, JavaScript, Node.js, MS SQL, Angular, React.">
+<meta property="og:title" content="MD. Abu Saeed — Software Engineer">
+<meta property="og:description" content="C# · ASP.NET Core · JavaScript · Node.js · MS SQL · Angular · React">
+<meta property="og:image" content="assets/thumbnail.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf9f6;
+  --surface:#ffffff;
+  --line:#e7e4dc;
+  --ink:#1a1a18;
+  --muted:#6f6b62;
+  --accent:#c65d34;
+  --serif:'Fraunces', Georgia, serif;
+  --sans:'Inter', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+::selection{background:var(--accent);color:#fff}
+
+.nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 4vw;
+  background:rgba(250,249,246,.9);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav .brand{font-family:var(--serif);font-weight:600;font-size:1.15rem;text-decoration:none;color:var(--ink)}
+.nav-links{display:flex;gap:2.2rem;align-items:center}
+.nav-links a{font-size:.92rem;text-decoration:none;color:var(--ink);transition:.2s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a.cv{color:var(--accent);font-weight:600}
+.nav-toggle{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink)}
+@media (max-width:820px){
+  .nav-links{
+    position:fixed;top:64px;left:0;right:0;background:var(--surface);
+    flex-direction:column;align-items:flex-start;gap:0;
+    padding:0;border-bottom:1px solid var(--line);
+    max-height:0;overflow:hidden;transition:.3s;
+  }
+  .nav-links.open{max-height:400px;padding:.5rem 4vw 1.5rem}
+  .nav-links a{width:100%;padding:.8rem 0;border-bottom:1px solid var(--line)}
+  .nav-toggle{display:block}
+}
+
+ .hero-wrap {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate; 
+        width:100%;
+    }
+    .hero-3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .hero-wrap > .hero {
+        position: relative;
+        z-index: 1;
+    }
+/* pointer-events are off on the canvas layer; the wrapper listens instead */
+.hero{
+  display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:3rem;
+  padding:5vw 4vw 6vw;max-width:1400px;margin:0 auto;
+}
+@media (max-width:900px){.hero{grid-template-columns:1fr;padding-top:3rem}}
+.eyebrow{font-size:.85rem;letter-spacing:.02em;color:var(--accent);margin:0 0 1.2rem;font-weight:600}
+.hero h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(2.4rem,4.2vw,4rem);
+  line-height:1.08;margin:0 0 1.6rem;max-width:14ch;
+  letter-spacing:-.01em;
+}
+.hero .lede{font-size:1.15rem;color:var(--muted);max-width:46ch;margin:0 0 2rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--sans);font-weight:600;font-size:.95rem;
+  background:var(--ink);color:#fff;
+  padding:.85rem 1.6rem;border-radius:100px;
+  text-decoration:none;border:none;cursor:pointer;transition:.2s;
+}
+.btn:hover{background:var(--accent)}
+.btn.outline{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.outline:hover{border-color:var(--ink);background:transparent;color:var(--ink)}
+.btn.disabled{opacity:.4;pointer-events:none}
+
+.portrait-wrap{position:relative;display:flex;justify-content:center}
+.portrait-frame{
+  width:min(100%, 360px);aspect-ratio:458/524;border-radius:18px;overflow:hidden;
+  background:transparent;border:none;cursor:pointer;position:relative;
+  box-shadow:0 30px 60px -20px rgba(26,26,24,.18);
+}
+.portrait-frame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;image-rendering:-webkit-optimize-contrast}
+.portrait-frame .frame-hint{
+  position:absolute;left:0;right:0;bottom:0;padding:1rem 1.2rem;
+  background:linear-gradient(to top, rgba(26,26,24,.72), transparent);
+  color:#fff;font-size:.85rem;font-weight:500;
+  opacity:0;transform:translateY(6px);transition:.25s;
+}
+.portrait-frame:hover .frame-hint{opacity:1;transform:translateY(0)}
+.portrait-frame:hover img{transform:scale(1.02)}
+
+.tag-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2.2rem}
+.tag{
+  font-size:.82rem;color:var(--ink);
+  border:1px solid var(--line);background:var(--surface);
+  padding:.4rem .85rem;border-radius:100px;
+}
+
+section{padding:5rem 4vw;max-width:1400px;margin:0 auto;border-top:1px solid var(--line)}
+.section-inner{max-width:1100px}
+.eyebrow.small{margin-bottom:.8rem}
+h2{font-family:var(--serif);font-weight:600;font-size:2.1rem;margin:0 0 1.4rem;max-width:22ch;letter-spacing:-.01em}
+p.lede{font-size:1.1rem;color:var(--muted);max-width:60ch}
+p.muted{color:var(--muted);max-width:65ch}
+
+
+/* ===== Skills ===== */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:2rem}
+@media (max-width:900px){.skills-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.skills-grid{grid-template-columns:1fr}}
+.skills-grid a{
+  --c1:#c65d34;--c2:#EB6E9B;
+  position:relative;display:block;overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;
+  padding:1.6rem 1.5rem 1.4rem;text-decoration:none;color:var(--ink);
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.skills-grid a::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--c1),var(--c2))}
+.skills-grid a::after{content:"";position:absolute;right:-40px;top:-40px;width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle,var(--c2),transparent 70%);opacity:.14;transition:opacity .25s}
+.skills-grid a:hover{transform:translateY(-6px);border-color:var(--c1);box-shadow:0 14px 30px -12px var(--c1)}
+.skills-grid a:hover::after{opacity:.3}
+.skills-grid .sk-head{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem}
+.skills-grid .sk-ico{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  font-weight:700;color:#fff;font-size:1.05rem;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 6px 14px -6px var(--c1)}
+.skills-grid h4{font-family:var(--sans);font-weight:700;margin:0;font-size:1.08rem;color:var(--ink)}
+.skills-grid p{margin:0;color:var(--muted);font-size:.92rem;min-height:2.6em}
+.skill-meter{display:flex;align-items:center;gap:.7rem;margin-top:1.1rem}
+.skill-bar{flex:1;height:10px;background:#efece4;border-radius:100px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
+.skill-bar span{display:block;height:100%;width:0;border-radius:100px;position:relative;
+  background:linear-gradient(90deg,var(--c1),var(--c2));transition:width 1.3s cubic-bezier(.22,1,.36,1)}
+.skill-bar span::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:translateX(-100%);animation:shine 2.4s infinite}
+@keyframes shine{to{transform:translateX(100%)}}
+.skill-pct{font-size:.85rem;font-weight:700;color:var(--c1);min-width:2.8em;text-align:right}
+
+/* ===== Projects ===== */
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.6rem;margin-top:2rem}
+@media (max-width:800px){.projects-grid{grid-template-columns:1fr}}
+.project-card{
+  --c1:#4DB6AC;--c2:#7C4DFF;
+  position:relative;display:flex;flex-direction:column;overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:0;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.project-card:hover{transform:translateY(-6px);border-color:var(--c1);box-shadow:0 18px 38px -16px var(--c2)}
+.project-card .pc-body{padding:1.4rem 1.6rem 1.6rem;display:flex;flex-direction:column;flex:1}
+.project-card h4{font-family:var(--serif);font-weight:700;font-size:1.35rem;margin:0 0 .5rem;
+  background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.project-card p{margin:0 0 1rem;font-size:.96rem;color:#3D2A5D;flex:1}
+.project-card .tag-row{margin:0 0 1.2rem}
+.project-card .tag{border-color:transparent;background:linear-gradient(135deg,rgba(77,182,172,.16),rgba(124,77,255,.14));color:#4a3a86;font-weight:500}
+.project-links{display:flex;flex-wrap:wrap;gap:.6rem}
+.project-links a{
+  font-size:.85rem;font-weight:600;text-decoration:none;color:#fff;
+  background:linear-gradient(135deg,var(--c1),var(--c2));
+  padding:.5rem 1rem;border-radius:100px;transition:transform .2s,box-shadow .2s;
+}
+.project-links a:hover{transform:translateY(-2px);box-shadow:0 8px 16px -8px var(--c2)}
+.project-links a.ghost{background:transparent;color:var(--c2);border:1.5px solid var(--c2)}
+
+/* live preview = mini browser, site runs inside the card */
+.live-wrap{background:linear-gradient(135deg,var(--c1),var(--c2));padding:14px 14px 0}
+.browser{background:#fff;border-radius:10px 10px 0 0;overflow:hidden;box-shadow:0 -4px 20px -6px rgba(0,0,0,.25)}
+.browser-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;background:#f1f0ec;border-bottom:1px solid var(--line)}
+.browser-bar i{width:9px;height:9px;border-radius:50%;background:#ff5f57}
+.browser-bar i:nth-child(2){background:#febc2e}.browser-bar i:nth-child(3){background:#28c840}
+.browser-bar .url{flex:1;margin-left:8px;font-size:.7rem;color:var(--muted);background:#fff;border-radius:100px;padding:2px 10px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.browser-bar .live-dot{font-size:.65rem;font-weight:700;color:#e0245e;display:flex;align-items:center;gap:4px}
+.browser-bar .live-dot::before{content:"";width:7px;height:7px;border-radius:50%;background:#e0245e;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.browser-view{position:relative;width:100%;height:230px;overflow:hidden;background:#fff}
+.browser-view iframe{position:absolute;left:0;top:0;width:1280px;height:800px;border:0;transform-origin:0 0;background:#fff}
+.browser-view .fallback{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:1rem;font-size:.85rem;color:var(--muted)}
+.no-live{height:90px;background:linear-gradient(135deg,var(--c1),var(--c2))}
+
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+@media (max-width:700px){.contact-grid{grid-template-columns:1fr}}
+.contact-item strong{display:block;font-size:.8rem;color:var(--muted);font-weight:500;margin-bottom:.4rem}
+.contact-item a,.contact-item span{font-size:1.05rem;font-weight:500}
+.contact-item a{text-decoration:none;color:var(--ink)}
+.contact-item a:hover{color:var(--accent)}
+
+.cv-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:2rem 2.2rem;margin-top:2.5rem;
+}
+.cv-banner .cv-info{font-size:.9rem;color:var(--muted)}
+
+footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 4vw;font-size:.82rem;color:var(--muted);
+  border-top:1px solid var(--line);flex-wrap:wrap;gap:.8rem;
+}
+footer .admin-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  text-decoration:none;color:var(--ink);font-weight:600;font-size:.85rem;
+  border:1.5px solid var(--line);padding:.55rem 1.1rem;border-radius:100px;
+  transition:.2s;
+}
+footer .admin-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--surface)}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,26,24,.45);
+  display:none;align-items:center;justify-content:center;z-index:1000;padding:1.5rem;
+}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--surface);border:1px solid var(--line);border-radius:16px;width:100%;max-width:420px;padding:2.2rem}
+.modal-box h3{font-family:var(--serif);margin:0 0 1.3rem;font-size:1.5rem}
+.modal-links{display:flex;flex-direction:column;gap:.6rem}
+.modal-links a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 1.1rem;background:var(--bg);border:1px solid var(--line);
+  border-radius:10px;text-decoration:none;color:var(--ink);font-size:.95rem;font-weight:500;
+  transition:.2s;
+}
+.modal-links a:hover{border-color:var(--accent);color:var(--accent)}
+.modal-links .empty{color:var(--muted);font-size:.9rem;padding:1rem 0}
+.modal-close{
+  margin-top:1.4rem;width:100%;background:transparent;border:1px solid var(--line);
+  color:var(--muted);padding:.75rem;border-radius:100px;cursor:pointer;font-family:var(--sans);font-weight:600;
+}
+.modal-close:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ---- Floating "Let's talk" button ---- */
+.floating-talk-btn{
+  position:fixed;right:1.75rem;bottom:1.75rem;z-index:900;
+  background:var(--ink);color:#fff;border:none;
+  padding:.9rem 1.5rem;border-radius:100px;font-family:var(--sans);
+  font-weight:600;font-size:.92rem;cursor:pointer;
+  box-shadow:0 8px 24px rgba(26,26,24,.25);
+  transition:.2s;
+}
+.floating-talk-btn:hover{background:var(--accent);transform:translateY(-2px)}
+@media (max-width:600px){.floating-talk-btn{right:1rem;bottom:1rem;padding:.8rem 1.2rem;font-size:.85rem}}
+
+/* ---- 3D scenes (Three.js) ---- */
+.scene-band canvas{display:block;width:100%;height:100%}
+.scene-band{
+  width:100%;height:340px;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,var(--bg) 0%, #f1ede4 100%);
+  border-top:1px solid var(--line);
+}
+.scene-caption{
+  position:absolute;left:0;right:0;bottom:1.2rem;text-align:center;
+  font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--ink);
+  pointer-events:none;letter-spacing:-.01em;
+}
+.scene-caption small{display:block;font-family:var(--sans);font-size:.8rem;font-weight:500;color:var(--muted);margin-top:.2rem}
+
+/* ---- Let's talk contact popup ---- */
+.talk-popup{
+  position:fixed;right:1.75rem;bottom:5.4rem;z-index:901;
+  width:min(320px,calc(100vw - 2rem));
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 16px 40px rgba(26,26,24,.18);padding:1.2rem;
+  display:none;flex-direction:column;gap:.55rem;
+}
+.talk-popup.open{display:flex}
+.talk-popup h4{font-family:var(--serif);font-size:1.15rem;margin:0 0 .3rem}
+.talk-popup a{
+  display:flex;align-items:center;gap:.7rem;padding:.8rem 1rem;
+  background:var(--bg);border:1px solid var(--line);border-radius:10px;
+  text-decoration:none;color:var(--ink);font-size:.93rem;font-weight:500;transition:.2s;
+}
+.talk-popup a:hover{border-color:var(--accent);color:var(--accent)}
+.talk-popup .ico{font-size:1.1rem}
+.talk-popup small{display:block;color:var(--muted);font-weight:400;font-size:.78rem}
+
+/* ---- Hire form fields ---- */
+.hire-field{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1rem}
+.hire-field label{font-size:.82rem;color:var(--muted);font-weight:500}
+.hire-field input[type=text],.hire-field input[type=email],.hire-field textarea,.hire-field select{
+  background:var(--bg);border:1px solid var(--line);color:var(--ink);
+  padding:.7rem .9rem;border-radius:10px;font-size:.95rem;font-family:var(--sans);resize:vertical;
+}
+.hire-field input:focus,.hire-field textarea:focus,.hire-field select:focus{outline:none;border-color:var(--accent)}
+.error-msg{color:#c0392b;font-size:.88rem;margin-top:.8rem;min-height:1.2em}
+.success-msg{color:#2e7d4f;font-size:.88rem;margin-top:.5rem}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="#home">MD. ABU SAEED</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#learning">Learning</a>
+    <a href="#contact">Contact</a>
+    <a href="#" id="navHireLink" style="font-weight:600">Hire Me</a>
+    <a href="#" class="cv" id="navCvLink">CV ↓</a>
+  </div>
+</nav>
+
+<header id="home" class="hero-wrap">
+  <div class="hero-3d" id="sceneHero" aria-hidden="true"></div>
+  <main class="hero">
+    <div>
+      <p class="eyebrow">FRESHER / ENTRY LEVEL</p>
+      <h1 id="heroTitle">Building reliable software with C# &amp; ASP.NET</h1>
+      <p class="lede" id="heroText">I'm MD. Abu Saeed, a fresher software developer trained through a 1-year software development course at IsDB-BISEW,Sher-e-Bangla Nagar,Dhaka Bangladesh — focused on writing clean, maintainable code across the Microsoft and JavaScript ecosystems.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn">Explore work</a>
+        <a href="#contact" class="btn outline">Get in touch</a>
+      </div>
+      <div class="tag-row">
+        <span class="tag">C#</span><span class="tag">ASP.NET Core</span><span class="tag">JavaScript</span>
+        <span class="tag">Node.js</span><span class="tag">React</span><span class="tag">Angular</span><span class="tag">MAUI</span><span class="tag">AI & Development </span>
+      </div>
+    </div>
+    <div class="portrait-wrap">
+      <div class="portrait-frame" id="portraitTrigger" title="View all links">
+        <img id="profilePhoto" src="assets/profile.jpg" alt="MD. Abu Saeed">
+        <div class="frame-hint">Click for GitHub, LinkedIn &amp; more →</div>
+      </div>
+    </div>
+  </main>
+</header>
+
+<section id="about">
+  <div class="section-inner">
+    <p class="eyebrow small">ABOUT</p>
+    <h2>Entry-level engineer, Microsoft stack focus</h2>
+    <p class="muted" id="aboutText">I build web and application solutions with Microsoft technologies and modern JavaScript frameworks. My learning path covers C#, ASP.NET, MVC 5, Entity Framework, ASP.NET Core, ADO.NET, MS SQL, Azure, JavaScript, jQuery, Node.js, Angular,AI & Development, React and .NET MAUI.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-inner">
+    <p class="eyebrow small">SKILLS</p>
+    <h2>Technical skills</h2>
+    <div class="skills-grid" id="skillsGrid"><p class="muted">Loading skills…</p></div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner">
+    <p class="eyebrow small">WORK</p>
+    <h2>Projects</h2>
+    <div class="projects-grid" id="projectsGrid"><p class="muted">Loading projects…</p></div>
+  </div>
+</section>
+
+<section id="learning">
+  <div class="section-inner">
+    <p class="eyebrow small">TRAINING</p>
+    <h2>Training &amp; learning</h2>
+    <p class="lede" style="font-size:1.05rem;font-weight:500;color:var(--ink)">1-Year Software Development Course — IsDB-BISEW, Bangladesh</p>
+    <p class="muted">Technologies covered: C#, ASP.NET, MVC 5, Entity Framework, ASP.NET Core, ADO.NET, MS SQL, JavaScript, jQuery, Node.js, Angular, React, Azure MAUI and AI & Development.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <p class="eyebrow small">CONTACT</p>
+    <h2>Get in touch</h2>
+    <p class="muted">Open to entry-level software development opportunities.</p>
+    <div class="contact-grid">
+      <div class="contact-item"><strong>Phone</strong><span>+88 01580932171</span></div>
+      <div class="contact-item"><strong>Email</strong><a href="mailto:abusaeed7233@gmail.com">abusaeed7233@gmail.com</a></div>
+      <div class="contact-item"><strong>LinkedIn</strong><a href="https://www.linkedin.com/in/abu-saeed-6347692b5" target="_blank" rel="noopener">linkedin.com/in/abu-saeed-6347692b5</a></div>
+    </div>
+
+    <div class="tag-row" id="socialLinksRow" style="margin-top:2rem"></div>
+
+    <div class="cv-banner">
+      <div>
+        <strong style="display:block;font-size:1.05rem;margin-bottom:.3rem">Curriculum Vitae</strong>
+        <span class="cv-info" id="cvInfoText">Checking for CV…</span>
+      </div>
+      <a href="/api/cv/download" class="btn disabled" id="cvDownloadBtn">Download CV</a>
+    </div>
+  </div>
+</section>
+
+<div class="scene-band" id="sceneWave" aria-hidden="true">
+  <div class="scene-caption">Clean code, built to last<small>C# · ASP.NET Core · SQL Server · JavaScript · AI & Development </small></div>
+</div>
+
+<footer>
+  <span>v1.0.0 · © 2026 MD. Abu Saeed</span>
+  <a href="admin.html" class="admin-btn">🔒 Admin login</a>
+</footer>
+
+<div class="modal-overlay" id="linksModal">
+  <div class="modal-box">
+    <h3>Find me online</h3>
+    <div class="modal-links" id="modalLinksList">
+      <div class="empty">Loading…</div>
+    </div>
+    <button class="modal-close" id="modalCloseBtn">Close</button>
+  </div>
+</div>
+
+<!-- Floating "Let's talk" button, always visible bottom-right: opens WhatsApp / Email / Phone -->
+<div class="talk-popup" id="talkPopup">
+  <h4>Let's talk</h4>
+  <a href="https://wa.me/8801580932171" target="_blank" rel="noopener"><span class="ico">💬</span><span>WhatsApp<small>+88 01580932171</small></span></a>
+  <a href="mailto:abusaeed7233@gmail.com"><span class="ico">✉️</span><span>Email<small>abusaeed7233@gmail.com</small></span></a>
+  <a href="tel:+8801580932171"><span class="ico">📞</span><span>Phone<small>+88 01580932171</small></span></a>
+</div>
+<button class="floating-talk-btn" id="floatingTalkBtn">💬 Let's talk</button>
+
+<!-- Hire me / project inquiry modal -->
+<div class="modal-overlay" id="hireModal">
+  <div class="modal-box" style="max-width:520px">
+    <h3>Let's build something</h3>
+    <p style="color:var(--muted);font-size:.92rem;margin:-.6rem 0 1.4rem">Tell me a bit about your project — I'll get back to you by email.</p>
+    <form id="hireForm">
+      <div class="hire-field"><label>Your name</label><input type="text" id="hireName" required></div>
+      <div class="hire-field"><label>Your email</label><input type="email" id="hireEmail" required></div>
+      <div class="hire-field">
+        <label>Project type</label>
+        <select id="hireType">
+          <option>Website</option>
+          <option>Web Application</option>
+          <option>Desktop Application</option>
+          <option>API / Backend</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="hire-field"><label>Budget (optional)</label><input type="text" id="hireBudget" placeholder="e.g. ৳10,000 – 20,000"></div>
+      <div class="hire-field"><label>Project details</label><textarea id="hireDetails" rows="4" required placeholder="What do you need built?"></textarea></div>
+      <div class="hire-field" style="flex-direction:row;align-items:center;gap:.5rem">
+        <input type="checkbox" id="hireSample" style="width:auto">
+        <label style="margin:0" for="hireSample">I'd like to see a sample/demo first</label>
+      </div>
+      <button type="submit" class="btn" style="margin-top:.5rem" id="hireSubmitBtn">Send request</button>
+      <div class="error-msg" id="hireError"></div>
+      <div class="success-msg" id="hireSuccess"></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/scenes.js"></script>
+<script>
+const API = '';
+
+async function loadLinks() {
+  try {
+    const res = await fetch(`${API}/api/links`);
+    if (!res.ok) throw new Error('Failed to load links');
+    const links = await res.json();
+    renderModalLinks(links);
+    renderSocialLinks(links);
+  } catch (e) {
+    document.getElementById('modalLinksList').innerHTML = '<div class="empty">Could not load links right now.</div>';
+  }
+}
+
+function iconFor(type) {
+  const icons = { github: '⌘', linkedin: 'in', website: '◈', facebook: 'f', youtube: '▶', gmail: '@', repo: '⌥', custom: '↗' };
+  return icons[type] || '↗';
+}
+
+function renderModalLinks(links) {
+  const el = document.getElementById('modalLinksList');
+  if (!links.length) { el.innerHTML = '<div class="empty">No links added yet.</div>'; return; }
+  el.innerHTML = links.map(l => `
+    <a href="${escapeAttr(l.url)}" target="_blank" rel="noopener">
+      <span>${escapeHtml(l.label)}</span>
+      <span style="color:var(--muted)">${iconFor(l.type)}</span>
+    </a>
+  `).join('');
+}
+
+function renderSocialLinks(links) {
+  const socialTypes = ['youtube', 'facebook', 'facebook_group', 'instagram'];
+  const social = links.filter(l => socialTypes.includes(l.type));
+  const row = document.getElementById('socialLinksRow');
+  if (!social.length) { row.innerHTML = ''; return; }
+  row.innerHTML = social.map(l => `<a href="${escapeAttr(l.url)}" target="_blank" rel="noopener" class="tag" style="text-decoration:none">${escapeHtml(l.label)}</a>`).join('');
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s) { return escapeHtml(s); }
+
+async function loadCv() {
+  const infoText = document.getElementById('cvInfoText');
+  const downloadBtn = document.getElementById('cvDownloadBtn');
+  const navCvLink = document.getElementById('navCvLink');
+  try {
+    const res = await fetch(`${API}/api/cv`);
+    const data = await res.json();
+    if (data.hasCv) {
+      const updated = data.updatedAtUtc ? new Date(data.updatedAtUtc).toLocaleDateString() : '';
+      infoText.textContent = `${data.fileName}${updated ? ' · updated ' + updated : ''}`;
+      downloadBtn.href = data.downloadUrl;
+      downloadBtn.classList.remove('disabled');
+      navCvLink.href = data.downloadUrl;
+    } else {
+      infoText.textContent = 'CV not uploaded yet.';
+      navCvLink.style.opacity = '.5';
+      navCvLink.style.pointerEvents = 'none';
+    }
+  } catch (e) {
+    infoText.textContent = 'Could not check CV status.';
+  }
+}
+
+const modal = document.getElementById('linksModal');
+document.getElementById('portraitTrigger').addEventListener('click', () => modal.classList.add('open'));
+document.getElementById('modalCloseBtn').addEventListener('click', () => modal.classList.remove('open'));
+modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('open'); });
+
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// ---- Hire me modal ----
+const hireModal = document.getElementById('hireModal');
+function openHireModal(e) { if (e) e.preventDefault(); hireModal.classList.add('open'); }
+document.getElementById('navHireLink').addEventListener('click', openHireModal);
+
+// Floating "Let's talk" -> quick contact popup (WhatsApp / Email / Phone)
+const talkPopup = document.getElementById('talkPopup');
+document.getElementById('floatingTalkBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  talkPopup.classList.toggle('open');
+});
+document.addEventListener('click', (e) => {
+  if (!talkPopup.contains(e.target)) talkPopup.classList.remove('open');
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') talkPopup.classList.remove('open'); });
+hireModal.addEventListener('click', (e) => { if (e.target === hireModal) hireModal.classList.remove('open'); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hireModal.classList.remove('open'); });
+
+document.getElementById('hireForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('hireSubmitBtn');
+  const errEl = document.getElementById('hireError');
+  const okEl = document.getElementById('hireSuccess');
+  errEl.textContent = ''; okEl.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const payload = {
+    clientName: document.getElementById('hireName').value.trim(),
+    clientEmail: document.getElementById('hireEmail').value.trim(),
+    projectType: document.getElementById('hireType').value,
+    budget: document.getElementById('hireBudget').value.trim(),
+    details: document.getElementById('hireDetails').value.trim(),
+    wantsSample: document.getElementById('hireSample').checked
+  };
+
+  try {
+    const res = await fetch(`${API}/api/hire`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok) { errEl.textContent = data.message || 'Could not send your request.'; return; }
+    okEl.textContent = data.message || 'Sent!';
+    document.getElementById('hireForm').reset();
+    setTimeout(() => { hireModal.classList.remove('open'); okEl.textContent = ''; }, 2000);
+  } catch (err) {
+    errEl.textContent = 'Could not reach the server. Please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send request';
+  }
+});
+
+// ---------- Content from the database (managed in the admin panel) ----------
+const SKILL_COLORS = [
+  ['#c65d34','#EB6E9B'], ['#2563eb','#06b6d4'], ['#7c3aed','#ec4899'],
+  ['#059669','#84cc16'], ['#f59e0b','#ef4444'], ['#0ea5e9','#6366f1']
+];
+const PROJECT_COLORS = [
+  ['#4DB6AC','#7C4DFF'], ['#f97316','#ec4899'], ['#2563eb','#22d3ee'],
+  ['#10b981','#6366f1'], ['#ef4444','#f59e0b'], ['#8b5cf6','#06b6d4']
+];
+
+async function loadSkills() {
+  const el = document.getElementById('skillsGrid');
+  try {
+    const res = await fetch(`${API}/api/skills`);
+    const items = await res.json();
+    if (!items.length) { el.innerHTML = '<p class="muted">Skills coming soon.</p>'; return; }
+    el.innerHTML = items.map((k, i) => {
+      const [c1, c2] = SKILL_COLORS[i % SKILL_COLORS.length];
+      const lvl = Math.max(0, Math.min(100, Number(k.level) || 0));
+      return `
+      <a href="skills.html#skill-${k.id}" style="--c1:${c1};--c2:${c2}">
+        <div class="sk-head">
+          <span class="sk-ico">${escapeHtml((k.title || '?').trim().charAt(0).toUpperCase())}</span>
+          <h4>${escapeHtml(k.title)}</h4>
+        </div>
+        <p>${escapeHtml(k.description)}</p>
+        <div class="skill-meter">
+          <div class="skill-bar"><span data-level="${lvl}"></span></div>
+          <span class="skill-pct">${lvl}%</span>
+        </div>
+      </a>`;
+    }).join('');
+    // animate bars when the grid scrolls into view
+    const go = () => el.querySelectorAll('.skill-bar span').forEach(b => b.style.width = b.dataset.level + '%');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { go(); io.disconnect(); } }, { threshold: .2 });
+      io.observe(el);
+    } else go();
+  } catch (e) { el.innerHTML = '<p class="muted">Could not load skills.</p>'; }
+}
+
+// scale the 1280px-wide iframe down to the card width, so the whole site is visible and live
+function fitLiveFrames(scope) {
+  scope.querySelectorAll('.browser-view').forEach(v => {
+    const f = v.querySelector('iframe'); if (!f) return;
+    const sc = v.clientWidth / 1280;
+    f.style.transform = `scale(${sc})`;
+    v.style.height = Math.round(800 * sc) + 'px';
+  });
+}
+
+async function loadProjects() {
+  const el = document.getElementById('projectsGrid');
+  try {
+    const res = await fetch(`${API}/api/projects`);
+    const items = await res.json();
+    if (!items.length) { el.innerHTML = '<p class="muted">Projects coming soon.</p>'; return; }
+    el.innerHTML = items.map((p, i) => {
+      const [c1, c2] = PROJECT_COLORS[i % PROJECT_COLORS.length];
+      const tech = (p.techStack || '').split(',').map(t => t.trim()).filter(Boolean)
+        .map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+      const links = [
+        p.liveUrl ? `<a href="${escapeAttr(p.liveUrl)}" target="_blank" rel="noopener">Open live ↗</a>` : '',
+        p.repoUrl ? `<a class="ghost" href="${escapeAttr(p.repoUrl)}" target="_blank" rel="noopener">GitHub Code ↗</a>` : ''
+      ].join('');
+      const live = p.liveUrl ? `
+        <div class="live-wrap">
+          <div class="browser">
+            <div class="browser-bar"><i></i><i></i><i></i><span class="url">${escapeHtml(p.liveUrl)}</span><span class="live-dot">LIVE</span></div>
+            <div class="browser-view" data-url="${escapeAttr(p.liveUrl)}"></div>
+          </div>
+        </div>` : '<div class="no-live"></div>';
+      return `
+        <div class="project-card" style="--c1:${c1};--c2:${c2}">
+          ${live}
+          <div class="pc-body">
+            <h4>${escapeHtml(p.title)}</h4>
+            <p>${escapeHtml(p.description)}</p>
+            ${tech ? `<div class="tag-row">${tech}</div>` : ''}
+            ${links ? `<div class="project-links">${links}</div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+    // load each live site into its card only when it scrolls into view
+    const mount = v => {
+      const f = document.createElement('iframe');
+      f.src = v.dataset.url; f.title = 'Live preview'; f.loading = 'lazy';
+      f.referrerPolicy = 'no-referrer';
+      f.sandbox = 'allow-scripts allow-same-origin allow-forms allow-popups';
+      v.appendChild(f);
+      fitLiveFrames(el);
+    };
+    const views = el.querySelectorAll('.browser-view');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { mount(e.target); io.unobserve(e.target); }
+      }), { rootMargin: '200px' });
+      views.forEach(v => io.observe(v));
+    } else views.forEach(mount);
+    fitLiveFrames(el);
+    window.addEventListener('resize', () => fitLiveFrames(el));
+  } catch (e) { el.innerHTML = '<p class="muted">Could not load projects.</p>'; }
+}
+
+async function loadPhoto() {
+  try {
+    const res = await fetch(`${API}/api/site/photo`);
+    const data = await res.json();
+    if (data.isCustom) document.getElementById('profilePhoto').src = data.url;
+  } catch (e) { /* keep default photo */ }
+}
+
+async function loadSiteText() {
+  try {
+    const res = await fetch(`${API}/api/site/text`);
+    const t = await res.json();
+    if (t.heroTitle) document.getElementById('heroTitle').textContent = t.heroTitle;
+    if (t.heroText) document.getElementById('heroText').textContent = t.heroText;
+    if (t.aboutText) document.getElementById('aboutText').textContent = t.aboutText;
+  } catch (e) { /* keep default text */ }
+}
+
+loadLinks();
+loadCv();
+loadSkills();
+loadProjects();
+loadPhoto();
+loadSiteText();
+</script>
+</body>
+</html>
